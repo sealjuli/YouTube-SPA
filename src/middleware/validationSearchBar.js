@@ -18,13 +18,6 @@ const validateBody = [
     .withMessage("Максимальное количество должно быть числовым"),
 ];
 
-const validateParamSearch = [
-  param("search")
-    .isString()
-    .optional()
-    .withMessage("Строка поиска должна быть символьной."),
-];
-
 const validateParamId = [
   param("id").isLength({ min: 1 }).withMessage("Id задания слишком короткий."),
 ];
@@ -50,7 +43,6 @@ const validateBodyUpdate = [
 
 module.exports = {
   validateBody,
-  validateParamSearch,
   validateParamId,
   validateBodyUpdate,
 };

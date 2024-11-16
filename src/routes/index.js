@@ -3,10 +3,12 @@ const express = require("express");
 const UsersControllers = require("../controllers/usersControllers");
 const validationMiddleware = require("../middleware/validationUser");
 const videosRoutes = require("./videosRoutes");
+const youtubeRoutes = require("./youtubeRoutes");
 
 const router = express.Router();
 
 router.use("/videos", videosRoutes);
+router.use("/youtube", youtubeRoutes);
 
 /**
  * @swagger

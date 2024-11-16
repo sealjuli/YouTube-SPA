@@ -12,25 +12,38 @@ class VideosControllers {
     }
 
     try {
-      const API_KEY = process.env.API_KEY;
-      const maxResults = 5;
-
       const result = await axios.get(
         "https://www.googleapis.com/youtube/v3/search",
         {
           params: {
-            key: API_KEY,
-            q: req.params.search,
+            key: process.env.API_KEY,
+            q: req.query.search,
             part: "snippet",
-            maxResults: maxResults,
+            maxResults: req.query.count,
             type: "video",
           },
         }
       );
 
-      res.send(result.data.items);
+      if (req.query.sortBy) {
+        res.send(
+          result.data.items.sort((a, b) => {
+            if (a.snippet[req.query.sortBy] > b.snippet[req.query.sortBy]) {
+              return 1;
+            } else if (
+              a.snippet[req.query.sortBy] < b.snippet[req.query.sortBy]
+            ) {
+              return -1;
+            } else return 0;
+          })
+        );
+      } else {
+        res.send(result.data.items);
+      }
     } catch (error) {
       Sentry.captureException(error);
+      console.error(error);
+      res.status(500).json({ message: "Ошибка получения видео по запросу" });
     }
   }
 
@@ -49,6 +62,31 @@ class VideosControllers {
       }
     } catch (error) {
       Sentry.captureException(error);
+      console.error(error);
+      res.status(500).json({ message: "Ошибка получения списка запросов" });
+    }
+  }
+
+  async getSearchBarById(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      const data = await VideosServices.findSearchById(
+        req.userId,
+        req.params.id
+      );
+      if (data) {
+        res.send(data);
+      } else {
+        res.send("Не найдено.");
+      }
+    } catch (error) {
+      Sentry.captureException(error);
+      console.error(error);
+      res.status(500).json({ message: "Ошибка получения запроса по id" });
     }
   }
 
@@ -64,6 +102,10 @@ class VideosControllers {
       res.send("OK");
     } catch (error) {
       Sentry.captureException(error);
+      console.error(error);
+      res
+        .status(500)
+        .json({ message: "Ошибка сохранения запроса в базу данных" });
     }
   }
 
@@ -87,6 +129,8 @@ class VideosControllers {
       }
     } catch (error) {
       Sentry.captureException(error);
+      console.error(error);
+      res.status(500).json({ message: "Ошибка редактирования запроса" });
     }
   }
 }

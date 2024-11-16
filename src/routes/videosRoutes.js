@@ -5,29 +5,6 @@ const VideosControllers = require("../controllers/videosControllers");
 const authenticateToken = require("../middleware/authentificateToken");
 const validationMiddleware = require("../middleware/validationSearchBar");
 
-/**
- * @swagger
- * /api/videos/{search}:
- *   get:
- *     summary: Получить список видео по поисковой строке
- *     description: Получение списка видео из YouTube API
- *     tags:
- *       - Videos
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: search
- *         required: true
- *         schema:
- *           type: string
- *           example: cats
- *         description: Строка для поиска видео
- *     responses:
- *       200:
- *         description: Массив видео
- */
-router.get("/:search", authenticateToken, VideosControllers.getVideos);
 
 /**
  * @swagger
@@ -69,6 +46,29 @@ router.get("/:search", authenticateToken, VideosControllers.getVideos);
  *           description: Максимальное количество
  */
 router.get("/", authenticateToken, VideosControllers.getSearchBar);
+
+/**
+ * @swagger
+ * /api/videos/{id}:
+ *   get:
+ *     summary: Просмотр сохранненого запроса по id
+ *     description: Просмотр запроса из базы данных по id
+ *     tags:
+ *       - Videos
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Идентификатор запроса
+ *     responses:
+ *       200:
+ *         description: Информация о запросе
+ */
+router.get("/:id", authenticateToken, VideosControllers.getSearchBarById);
 
 /**
  * @swagger
