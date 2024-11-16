@@ -16,6 +16,10 @@ const SearchBar = sequelize.define("SearchBar", {
   count: {
     type: DataTypes.INTEGER,
   },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  }
 });
 
 module.exports = SearchBar;

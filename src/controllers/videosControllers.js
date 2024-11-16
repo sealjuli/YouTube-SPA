@@ -41,9 +41,12 @@ class VideosControllers {
     }
 
     try {
-      const data = await VideosServices.getSearchBar();
-
-      res.send(data);
+      const data = await VideosServices.getSearchBar(req.userId);
+      if (data.length > 0) {
+        res.send(data);
+      } else {
+        res.send("Не найдено.");
+      }
     } catch (error) {
       Sentry.captureException(error);
     }
@@ -56,7 +59,7 @@ class VideosControllers {
     }
 
     try {
-      await VideosServices.saveSearchBar(req.body);
+      await VideosServices.saveSearchBar({ ...req.body, userId: req.userId });
 
       res.send("OK");
     } catch (error) {
@@ -71,9 +74,17 @@ class VideosControllers {
     }
 
     try {
-      await VideosServices.updateSearchBar(req.params.id, req.body);
+      const search = await VideosServices.findSearchById(
+        req.userId,
+        req.params.id
+      );
 
-      res.send("OK");
+      if (!search) {
+        res.send("Запрос с указанным id не найден");
+      } else {
+        await VideosServices.updateSearchBar(req.params.id, req.body);
+        res.send("OK");
+      }
     } catch (error) {
       Sentry.captureException(error);
     }

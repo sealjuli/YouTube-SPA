@@ -22,10 +22,24 @@ class VideosServices {
     }
   }
 
-  async getSearchBar() {
+  async getSearchBar(userId) {
     try {
-      const result = await SearchBar.findAll({ order: ["id"] });
+      const result = await SearchBar.findAll({
+        where: { userId },
+        order: ["id"],
+      });
       return result;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async findSearchById(userId, id) {
+    try {
+      const result = await SearchBar.findAll({
+        where: { userId, id },
+      });
+      return result[0];
     } catch (err) {
       console.log(err);
     }

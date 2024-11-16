@@ -3,6 +3,9 @@ const sequelize = require("../config/db");
 const Users = require("./users.model");
 const SearchBar = require("./searchBar.model");
 
+Users.hasMany(SearchBar, { foreignKey: "userId" });
+SearchBar.belongsTo(Users, { foreignKey: "userId" });
+
 /*
 (async () => {
   try {
