@@ -6,7 +6,6 @@ const SearchBar = require("./searchBar.model");
 Users.hasMany(SearchBar, { foreignKey: "userId" });
 SearchBar.belongsTo(Users, { foreignKey: "userId" });
 
-/*
 (async () => {
   try {
     await sequelize.sync({ force: true });
@@ -15,6 +14,5 @@ SearchBar.belongsTo(Users, { foreignKey: "userId" });
     console.error("Error syncing tables:", error);
   }
 })();
-*/
 
 module.exports = { Users, SearchBar };
