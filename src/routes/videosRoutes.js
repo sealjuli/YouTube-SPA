@@ -151,4 +151,31 @@ router.patch(
   VideosControllers.updateSearchBar
 );
 
+/**
+ * @swagger
+ * /api/videos/{id}:
+ *   delete:
+ *     summary: Удаление запроса из избранных по id
+ *     description: Удаление запроса из избранных
+ *     tags:
+ *       - Videos
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Идентификатор запроса
+ *     responses:
+ *       200:
+ *         description: Запрос успешно удален из избранных
+ */
+router.delete(
+  "/:id",
+  authenticateToken,
+  VideosControllers.deleteSearchBar
+);
+
 module.exports = router;

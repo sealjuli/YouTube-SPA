@@ -13,7 +13,7 @@ const router = express.Router();
  *     summary: Получить список видео по поисковой строке
  *     description: Получение списка видео из YouTube API
  *     tags:
- *       - Videos
+ *       - YouTube
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -47,6 +47,34 @@ router.get(
   authenticateToken,
   validationMiddleware.validateQuerySearch,
   VideosControllers.getVideos
+);
+
+/**
+ * @swagger
+ * /api/youtube/{id}:
+ *   get:
+ *     summary: Получить список видео по id сохраненного запроса
+ *     description: Получение списка видео из YouTube API по id сохраненного запроса
+ *     tags:
+ *       - YouTube
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: Идентификатор сохраненного запроса для поиска видео
+ *     responses:
+ *       200:
+ *         description: Массив видео
+ */
+router.get(
+  "/:id",
+  authenticateToken,
+  VideosControllers.getVideosBySearch
 );
 
 module.exports = router;

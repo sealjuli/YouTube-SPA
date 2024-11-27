@@ -44,6 +44,16 @@ class VideosServices {
       console.log(err);
     }
   }
+
+  async deleteSearch(body) {
+    try {
+      await SearchBar.destroy({
+        where: { userId: body.userId, id: body.id },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = new VideosServices();
