@@ -111,7 +111,7 @@ class VideosControllers {
       if (data.length > 0) {
         res.send(data);
       } else {
-        res.send("Не найдено.");
+        res.send([]);
       }
     } catch (error) {
       Sentry.captureException(error);
@@ -134,7 +134,7 @@ class VideosControllers {
       if (data) {
         res.send(data);
       } else {
-        res.send("Не найдено.");
+        res.send({});
       }
     } catch (error) {
       Sentry.captureException(error);
