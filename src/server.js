@@ -12,6 +12,9 @@ const Sentry = require("@sentry/node");
 Sentry.init({
   dsn: process.env.DSN,
   // Другие опции настройки
+  integrations: [
+    // Здесь исключаем OpenTelemetry интеграцию
+  ],
 });
 
 // Обработчики Sentry
