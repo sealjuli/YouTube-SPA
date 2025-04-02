@@ -12,11 +12,6 @@ const Sentry = require("@sentry/node");
 Sentry.init({
   dsn: process.env.DSN,
   // Другие опции настройки
-  integrations: [
-    // Исключаем OpenTelemetry
-    new Sentry.Integrations.Http({ tracing: false }), // Отключаем трассировку HTTP
-    // Добавьте другие интеграции, которые хотите использовать
-  ],
 });
 
 // Обработчики Sentry
